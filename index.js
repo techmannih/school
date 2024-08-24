@@ -15,8 +15,45 @@ app.use(morgan("dev"));
 app.use("/", schoolRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.send(`
+    <html>
+      <head>
+        <title>Welcome to School Management API</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 50px;
+          }
+          h1 {
+            color: #3498db;
+          }
+          p {
+            font-size: 1.2em;
+            color: #333;
+          }
+          .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: inline-block;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Welcome to School Management API</h1>
+          <p>Your Node.js API is running smoothly! 🎉</p>
+          <p>Get ready to manage your schools efficiently with our API.</p>
+        </div>
+      </body>
+    </html>
+  `);
 });
+
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
