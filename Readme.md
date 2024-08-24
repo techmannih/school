@@ -125,7 +125,7 @@ The server will start on `http://localhost:3000`.
 The API is hosted on Heroku at the following base URL:
 
 ```
-https://school-server-bvf2debtetckdchb.eastus-01.azurewebsites.net
+https://school-server-bvf2debtetckdchb.eastus-01.azurewebsites.net/
 ```
 
 
