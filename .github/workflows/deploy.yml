@@ -1,0 +1,60 @@
+name: Build and Deploy Backend to Azure App Service
+
+on:
+  push:
+    branches:
+      - main  # Replace with your default branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'  # Replace with your Node.js version
+
+    - name: Install dependencies
+      working-directory: server
+      run: npm install
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push Docker Image
+      run: |
+        cd server
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/ecommerce-server:latest .
+        docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-server:latest
+
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Set Environment Variables in Azure App Service
+      run: |
+        az webapp config appsettings set \
+          --name school-server \
+          --resource-group school-s \
+          --settings PORT=${{ secrets.PORT }} \
+                      DB_URL=${{ secrets.DB_HOST }} \
+                      DB_USER=${{ secrets.DB_USER }} \
+                      DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+                      DB_NAME=${{ secrets.DB_NAME }}
+
+    - name: Deploy Docker Image to Azure App Service
+      run: |
+        az webapp config container set \
+          --name school-server \
+          --resource-group school-s \
+          --docker-custom-image-name ${{ secrets.DOCKER_USERNAME }}/ecommerce-server:latest
+      env:
+        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
