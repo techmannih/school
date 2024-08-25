@@ -116,8 +116,10 @@ The server will start on `http://localhost:3000`.
 - **Express.js**: Web application framework for Node.js, used to create RESTful APIs and handle HTTP requests.
 - **MySQL**: Relational database management system, used to store and manage school data.
 - **Geolocation Libraries**: (`haversine-distance`) Used to calculate distances between two geographical points.
-- **Postman/Insomnia**: API testing tools to test the developed endpoints.
+- **Postman**: API testing tools to test the developed endpoints.
 - **dotenv**: For managing environment variables like database credentials.
+- **Azure App Service**: Used to host and deploy the Node.js backend application.
+- **Azure Database for MySQL**: Managed database service for MySQL, used to handle and store application data securely.
 
 
 ## Hosted API
